@@ -1,38 +1,22 @@
-import CategoryDirectory from './components/category-directory/category-directory.component';
+import { Route, Routes } from "react-router-dom";
+import Home from "./routes/home/home.component";
+import Navbar from "./routes/navbar/navbar.component";
 
+const Shop = () => {
+  return <h1>Shop component</h1>
+};
+
+// <Routes /> => Lists routes that we can leverage
+// <Route /> => Specific route, when "path" of URL string is mathed, renders whatever is passed in "element"
+// "index" attribute => default true, when passed; that component will be matched with parent's "path" by default & rendered
 const App = () => {
-  const categories = [
-    {
-      "id": 1,
-      "title": "Hats",
-      "imageUrl": "https://i.ibb.co/cvpntL1/hats.png"
-    },
-    {
-      "id": 2,
-      "title": "Jackets",
-      "imageUrl": "https://i.ibb.co/px2tCc3/jackets.png"
-    },
-    {
-      "id": 3,
-      "title": "Sneakers",
-      "imageUrl": "https://i.ibb.co/0jqHpnp/sneakers.png"
-    },
-    {
-      "id": 4,
-      "title": "Womens",
-      "imageUrl": "https://i.ibb.co/GCCdy8t/womens.png"
-    },
-    {
-      "id": 5,
-      "title": "Mens",
-      "imageUrl": "https://i.ibb.co/R70vBrQ/men.png"
-    }
-  ];
-
   return (
-    <div>
-      <CategoryDirectory categories={categories}/>
-    </div>
+    <Routes>
+      <Route path="/" element={<Navbar/>}>
+        <Route index element={<Home/>} /> {/*Both <Navbar/> & <Home/> will be rendered along with "/"*/}
+        <Route path="shop" element={<Shop/>} />
+      </Route>
+    </Routes>
   );
 };
 
