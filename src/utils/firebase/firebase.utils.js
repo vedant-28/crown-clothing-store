@@ -1,4 +1,4 @@
-// Firebase is a suite of tool & Firestore DB is a toll in suite; which we need to get from a library "app".
+// Firebase is a suite of tool & Firestore DB is a tool in suite; which we need to get from a library "app".
 // This makes sure running of Firebase & it's internal services.
 // "initializeApp" => creates an instance of "app" based on configs.
 // configs is an object which allows us to attach firebase app instance to our online instance (firebase console).
@@ -11,6 +11,7 @@ import {
   GoogleAuthProvider,// class which provides auth services by Google
   createUserWithEmailAndPassword, // When we use native authentication methods of fireBase, we don't need a provider. It's provided by default.
   signInWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
 import {
   getFirestore, // method used to get an instance of firestore db
@@ -74,14 +75,17 @@ export const createUserDocFromAuth = async (userAuth, additionalInfo = {}) => {
     }
     return userDocRef;
   }
-}
+};
 
 export const userAuthWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
   return await createUserWithEmailAndPassword(auth, email, password);
-}
+};
 
 export const signInUserAuthWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
   return await signInWithEmailAndPassword(auth, email, password);
-}
+};
+
+export const signOutUser = async () => await signOut(auth);// signOut() takes singleton "auth" as an argument & tells firebase which user to sign out; also keeps a track of users currently logged in.
+// This is async function, which will return a promise when user clicks sign out.

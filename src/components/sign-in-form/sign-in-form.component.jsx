@@ -1,4 +1,10 @@
-import React, { useState } from "react";
+// sign-in comp needs to utilize context value, 
+// so 2 things are needed => useContext hook & actual context itslef
+
+import React, { useState, useContext } from "react";
+import { UserContext } from "../../contexts/user.context";// context; alias: UserContext, gives back a value which is passed in to "value" attribute; which is "currentUser" & "setCurrentUser" of useState; which are instantiated as an object, we get back (exact object) with whatever value is there as "currentUser" in UserProvider's useState.
+
+// useContext => glorified hook into an another component, that will re-render it's subsequent comps, whenever "UserContext" comp is updated, which provides context to us.
 import {
   signInWithGooglePopup,
   createUserDocFromAuth,
@@ -19,6 +25,8 @@ const SignInForm = () => {
 
   //console.log(formFields);
 
+  const { setCurrentUser } = useContext(UserContext); // for sign-in form, we need to set value. setCurrentUser() setter function is executed when we get "user" value after clicking "submit."
+
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
   };
@@ -32,8 +40,8 @@ const SignInForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await signInUserAuthWithEmailAndPassword(email,password);
-      console.log(response);
+      const { user } = await signInUserAuthWithEmailAndPassword(email,password);
+      setCurrentUser(user); // Running setCurrentUser setter function whenever we get "user" value.
       resetFormFields();
     } catch (err) {
       // eslint-disable-next-line default-case
