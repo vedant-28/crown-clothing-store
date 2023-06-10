@@ -10,6 +10,7 @@ import {
   signInWithPopup,
   GoogleAuthProvider,// class which provides auth services by Google
   createUserWithEmailAndPassword, // When we use native authentication methods of fireBase, we don't need a provider. It's provided by default.
+  signInWithEmailAndPassword,
 } from "firebase/auth";
 import {
   getFirestore, // method used to get an instance of firestore db
@@ -78,4 +79,9 @@ export const createUserDocFromAuth = async (userAuth, additionalInfo = {}) => {
 export const userAuthWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
   return await createUserWithEmailAndPassword(auth, email, password);
+}
+
+export const signInUserAuthWithEmailAndPassword = async (email, password) => {
+  if (!email || !password) return;
+  return await signInWithEmailAndPassword(auth, email, password);
 }
