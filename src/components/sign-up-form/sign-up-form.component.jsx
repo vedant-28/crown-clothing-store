@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { userAuthWithEmailAndPassword, createUserDocFromAuth } from '../../utils/firebase/firebase.utils';
 import FormInput from "../form-input/form-input.component";
+import Button from "../button/button.component";
+import './sign-up-form.styles.scss';
 
 const defaultFormFields = {
   displayName: "",
@@ -13,7 +15,7 @@ const SignUpForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields); // "defaultFormFields" gets mapped to "formFields" state variable, Hence "formFields" is an object.
   const { displayName, email, password, confirmPassword } = formFields; // destructuring values coming in "formFields" state variable; whichis an object.
 
-  console.log(formFields);
+  //console.log(formFields);
 
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
@@ -30,8 +32,8 @@ const SignUpForm = () => {
       await createUserDocFromAuth(user, { displayName });
       resetFormFields();
       // When email & passwd based auth is done, it does not have displayName inside it by default 
-      // (when provider is google, we have to enter out name in account hence it returns by default.)
-      // Hence to set displayName in out db, it is passed externally here, which we get from sign up form, when user fills it.
+      // (when provider is google, we have to enter our name in account hence it returns by default.)
+      // Hence to set displayName in our db, it is passed externally here, which we get from sign up form, when user fills it.
       //console.log(response);
     } catch (err) {
       if(err.code === "auth/email-already-in-use") {
@@ -58,8 +60,9 @@ const SignUpForm = () => {
   };
 
   return (
-    <div>
-      <h1>Sign Up With Your Email & Password</h1>
+    <div className="sign-up-container">
+      <h2>I don't have an account</h2>
+      <span>Sign Up With Your Email & Password</span>
       <form onSubmit={handleSubmit}>
         {/*With "name", we will be able to distinguish which value out of these 4 <input>'s is changing*/}
         {/*"value" is the value that we pass as input & will be displayed in input field.*/}
@@ -101,7 +104,7 @@ const SignUpForm = () => {
           onChange={changeHandler}
         />
 
-        <button type="submit">Sign Up</button>
+        <Button type="submit">Sign Up</Button>
       </form>
     </div>
   );
