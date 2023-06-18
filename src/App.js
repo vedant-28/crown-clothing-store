@@ -2,10 +2,8 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./routes/home/home.component";
 import Navbar from "./routes/navbar/navbar.component";
 import Authentication from "./routes/authentication/authentication.component";
+import Shop from "./routes/shop/shop.component";
 
-const Shop = () => {
-  return <h1>Shop component</h1>
-};
 
 // <Routes /> => Lists routes that we can leverage
 // <Route /> => Specific route, when "path" of URL string is mathed, renders whatever is passed in "element"

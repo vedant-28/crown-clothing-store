@@ -3,7 +3,7 @@ import { onAuthStateChangedListner, signOutUser, createUserDocFromAuth } from ".
 
 // UserContext => value that we actually want to access
 // Provider => actual component, here UserProvider 
-export const UserContext = createContext({ // default values of state for Provider are created here:
+export const UserContext = createContext({  // default values of state for Provider are created here:
 	currentUser: null, // there will be no context if currentUser value is null.
 	setCurrentUser: () => null, // function which does nothing.
 });
@@ -41,6 +41,9 @@ export const UserProvider = ({ children }) => {
 	}, []);
 	/* "onAuthStateChanged" provides "unsubscribe" method,
 			to stop onAuthStateChanged listening to auth state changes to on componenet unmount to avoid memory leaks.
+	*/
+	/* This is a part of Obervable-Listener design pattern.
+		Detailed expln of Obs-Listnr pattern: https://youtu.be/AkCozUJdbAo
 	*/
 
   return <UserContext.Provider value={value}>
