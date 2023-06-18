@@ -2,7 +2,8 @@ import React, { useState, useContext } from "react";
 import { userAuthWithEmailAndPassword, createUserDocFromAuth } from '../../utils/firebase/firebase.utils';
 import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
-import { UserContext } from "../../contexts/user.context";
+// import { UserContext } from "../../contexts/user.context";
+// commented, as all references related to authentication will be in user.context (central place) as part of observable listener.
 import './sign-up-form.styles.scss';
 
 const defaultFormFields = {
@@ -18,7 +19,9 @@ const SignUpForm = () => {
 
   //console.log(formFields);
 
-  const { setCurrentUser } = useContext(UserContext);// for sign-up form, we need to set value. setCurrentUser() setter function is executed when we get "user" value after clicking "submit."
+  // const { setCurrentUser } = useContext(UserContext);
+  // for sign-up form, we need to set value. setCurrentUser() setter function is executed when we get "user" value after clicking "submit."
+  // commented, as all references related to authentication will be in user.context (central place) as part of observable listener.
 
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
@@ -32,9 +35,9 @@ const SignUpForm = () => {
     }
     try {
       const { user } = await userAuthWithEmailAndPassword(email, password);
-      setCurrentUser(user);
+      // setCurrentUser(user);
+      // commented, as all references related to authentication will be in user.context (central place) as part of observable listener.
       await createUserDocFromAuth(user, { displayName });
-      console.log(user);
       resetFormFields();
       // When email & passwd based auth is done, it does not have displayName inside it by default 
       // (when provider is google, we have to enter our name in account hence it returns by default.)

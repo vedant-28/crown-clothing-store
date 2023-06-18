@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { createContext } from "react";
+import React, { useState, createContext, useEffect } from 'react';
+import { onAuthStateChangedListner, signOutUser, createUserDocFromAuth } from "../utils/firebase/firebase.utils";
 
 // UserContext => value that we actually want to access
 // Provider => actual component, here UserProvider 
@@ -19,6 +19,29 @@ export const UserContext = createContext({ // default values of state for Provid
 export const UserProvider = ({ children }) => {
 	const [currentUser, setCurrentUser] = useState(null);
 	const value = { currentUser, setCurrentUser }
+
+	//signOutUser();
+	// As soon as User Provider mounts, sign out.
+	/* It's done to avoid a behavior of singleton auth.
+		This singleton "auth" is obtained from getAuth() of firebase,
+		Which internally keeps track of state of sign outs & sign ins by user & it's also persistant between refreshes.
+		Because of this behavior, when app is instantiated, it shows as user is signed out, 
+		but "auth" state is still hooked in the state where user was signed in in last session.
+	*/
+
+	useEffect(() => {
+		const unsubscribe = onAuthStateChangedListner((user) => {
+			console.log(user);
+			if(user) {
+				createUserDocFromAuth(user);
+			}
+			setCurrentUser(user);
+		});
+		return unsubscribe;
+	}, []);
+	/* "onAuthStateChanged" provides "unsubscribe" method,
+			to stop onAuthStateChanged listening to auth state changes to on componenet unmount to avoid memory leaks.
+	*/
 
   return <UserContext.Provider value={value}>
     { children }

@@ -3,9 +3,10 @@
 import { React, Fragment, useContext } from "react";
 import { Outlet, Link } from "react-router-dom";
 import { UserContext } from "../../contexts/user.context";
-import { signOutUser } from "../../utils/firebase/firebase.utils";
+// import { signOutUser } from "../../utils/firebase/firebase.utils";
 import { ReactComponent as CrwnLogo } from "../../assets/crown.svg";
 import "./navbar.styles.scss";
+import { signOutUser } from "../../utils/firebase/firebase.utils";
 
 // "Outlet" here will render other components <Home/> & <Shop/> after Navbar
 const Navbar = () => {
@@ -18,12 +19,13 @@ const Navbar = () => {
   // This "navbar" comp. is listening to "currentUser" from UserContext's useState; on sign-in it updates & hence, "navbar" is re-rendered;
   // because if "currentUser" value is updating, we most-likey need it to use in UI.
 
-  const signOutHandler = async () => {
-    await signOutUser();
-    setCurrentUser(null);
-  }
+  // const signOutHandler = async () => {
+  //   await signOutUser();
+  //   setCurrentUser(null);
+  // }
   // Whenever user is signed out, we don't know that it's actually signed out or not on the basis of context; becaause context was not hooked to it yet.
   // Here we're leveraging context in order to store user & track authentication state of "user".
+  // commented, as all references related to authentication will be in user.context (central place) as part of observable listener.
 
   return (
     <Fragment>
@@ -36,7 +38,7 @@ const Navbar = () => {
             SHOP
           </Link>
           {currentUser ? (
-            <Link className="nav-link" onClick={signOutHandler}>SIGN OUT</Link>
+            <Link className="nav-link" onClick={signOutUser}>SIGN OUT</Link>
           ) : (
             <Link className="nav-link" to={"/auth"}>
               SIGN IN

@@ -12,6 +12,7 @@ import {
   createUserWithEmailAndPassword, // When we use native authentication methods of fireBase, we don't need a provider. It's provided by default.
   signInWithEmailAndPassword,
   signOut,
+  onAuthStateChanged,
 } from "firebase/auth";
 import {
   getFirestore, // method used to get an instance of firestore db
@@ -89,3 +90,11 @@ export const signInUserAuthWithEmailAndPassword = async (email, password) => {
 
 export const signOutUser = async () => await signOut(auth);// signOut() takes singleton "auth" as an argument & tells firebase which user to sign out; also keeps a track of users currently logged in.
 // This is async function, which will return a promise when user clicks sign out.
+
+export const onAuthStateChangedListner = (callback) => onAuthStateChanged(auth, callback);
+// onAuthStateChanged(singleton_auth, callback_runs_everytime_when_auth_state_changes)
+// callback => whenever onAuthStateChangedListner is instantiated, run "callback"
+/* onAuthStateChanged is an open listener, means it is always listening when does "auth" state changes.
+   So we have to explicitely tell it to stop listening when component unmounts; else it'll cause memory leak.
+   For that it gives a method "unsubscribe".
+*/
