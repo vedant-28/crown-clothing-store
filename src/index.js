@@ -5,6 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import { UserProvider } from './contexts/user.context';
 import { ProductsProvider } from './contexts/products.context'; 
+import { CartProvider } from './contexts/cart.context';
 import './index.scss';
 
 
@@ -15,7 +16,9 @@ root.render(
     <BrowserRouter>
       <UserProvider>
         <ProductsProvider>
-          <App /> {/*any component nested deeper than App comp, can access context value inside Provider*/}
+          <CartProvider>
+            <App /> {/*any component nested deeper than App comp, can access context value inside Provider*/}
+          </CartProvider>
         </ProductsProvider>
       </UserProvider>
     </BrowserRouter>
